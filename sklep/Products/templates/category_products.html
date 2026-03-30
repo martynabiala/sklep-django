@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if title %}
+        <h2 class="section-title">{{ title }}</h2>
+    {% else %}
+        <h2 class="section-title">Category: {{ category.name }}</h2>
+    {% endif %}
+
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        {{ product.name|slice:":1"|upper }}
+                    {% endif %}
+                </div>
+
+                <h3>
+                    <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                </h3>
+
+                <p>{{ product.description|truncatechars:90 }}</p>
+
+                <div class="card-actions">
+                    <div class="price">{{ product.price }} PLN</div>
+                    <a class="button primary" href="{% url 'product_detail' product.id %}">See item</a>
+                    <a class="button primary" href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-message">
+                No products in this category.
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

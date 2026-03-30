@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="details-box">
+        <div class="details-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                {{ product.name|slice:":1"|upper }}
+            {% endif %}
+        </div>
+
+        <h2>{{ product.name }}</h2>
+
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <p><strong>Price:</strong> {{ product.price }} PLN</p>
+
+        {% if product.category %}
+            <span class="tag">Category: {{ product.category.name }}</span>
+        {% endif %}
+
+        {% if product.manufacturer %}
+            <span class="tag">Manufacturer: {{ product.manufacturer.name }}</span>
+        {% endif %}
+
+        <br><br>
+        <a class="button" href="{% url 'index' %}">Back to home</a>
+        {% if product.category %}
+            <a class="button primary" href="{% url 'category_products' product.category.id %}">More items</a>
+        {% endif %}
+        <a class="button primary" href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+    </div>
+{% endblock %}

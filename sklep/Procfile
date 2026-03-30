@@ -1,0 +1,1 @@
+web: gunicorn Sklep.wsgi:application

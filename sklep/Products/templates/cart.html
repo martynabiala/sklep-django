@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="section-title">Your Cart</h2>
+
+    {% if cart_items %}
+        <div class="product-grid">
+            {% for item in cart_items %}
+                <div class="product-card">
+                    <div class="product-image">
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        {% else %}
+                            {{ item.product.name|slice:":1"|upper }}
+                        {% endif %}
+                    </div>
+
+                    <h3>
+                        <a href="{% url 'product_detail' item.product.id %}">{{ item.product.name }}</a>
+                    </h3>
+
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Price: {{ item.product.price }} PLN</p>
+                    <p><strong>Total: {{ item.item_total }} PLN</strong></p>
+
+                    <div class="card-actions">
+                        <a class="button" href="{% url 'product_detail' item.product.id %}">View</a>
+                        <a class="button primary" href="{% url 'remove_from_cart' item.product.id %}">Remove</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="details-box" style="margin-top: 24px;">
+            <h3>Order Summary</h3>
+            <p><strong>Total:</strong> {{ total }} PLN</p>
+            <a class="button primary" href="#">Checkout</a>
+        </div>
+    {% else %}
+        <div class="empty-message">
+            Your cart is empty.
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="promo-box">
+        <h2>Welcome to TeamRocketSupply</h2>
+        <p>
+            Explore premium Pokémon-inspired products, stylish collectibles and themed gear.
+            Choose a category on the left or browse featured products below.
+        </p>
+    </div>
+
+    {% if query %}
+        <h2 class="section-title">Search results for: "{{ query }}"</h2>
+    {% else %}
+        <h2 class="section-title">Featured Products</h2>
+    {% endif %}
+
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        {{ product.name|slice:":1"|upper }}
+                    {% endif %}
+                </div>
+
+                <h3>
+                    <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                </h3>
+
+                <p>{{ product.description|truncatechars:90 }}</p>
+
+                <div class="card-actions">
+                    <div class="price">{{ product.price }} PLN</div>
+                    <a class="button" href="{% url 'product_detail' product.id %}">View</a>
+                    <a class="button primary" href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-message">
+                No products found.
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
