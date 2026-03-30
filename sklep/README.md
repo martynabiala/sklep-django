@@ -37,6 +37,3 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
-
-6. Otwórz w przeglądarce:
-'http://127.0.0.1:8000/'
